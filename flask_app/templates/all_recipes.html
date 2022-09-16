@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="mx-5 my-5">
+    <h1>Welcome, {{user.fname}}</h1>
+    <div class="nav-wrapper d-flex justify-content-between">
+        <p class="lead">All posted recipes:</p>
+        <div class="link-wrapper">
+            <a href="#" class="btn btn-success">Create</a>
+            <a href="/logout" class="btn btn-primary">Logout</a>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Under 30</th>
+                <th scope="col">Posted By</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Mac & Cheese</td>
+                <td>Yes</td>
+                <td>Billy</td>
+                <td>
+                    <a href="#">View</a> | 
+                    <a href="#">Edit</a> | 
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Dino Nuggies</td>
+                <td>Yes</td>
+                <td>Jane</td>
+                <td>
+                    <a href="#">View</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Cabbage Rolls</td>
+                <td>No</td>
+                <td>Rando</td>
+                <td>
+                    <a href="#">View</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
