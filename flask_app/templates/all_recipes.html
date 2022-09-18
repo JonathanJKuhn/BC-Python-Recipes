@@ -5,7 +5,7 @@
     <div class="nav-wrapper d-flex justify-content-between">
         <p class="lead">All posted recipes:</p>
         <div class="link-wrapper">
-            <a href="#" class="btn btn-success">Create</a>
+            <a href="/recipes/new" class="btn btn-success">Create</a>
             <a href="/logout" class="btn btn-primary">Logout</a>
         </div>
     </div>
@@ -19,32 +19,27 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Mac & Cheese</td>
-                <td>Yes</td>
-                <td>Billy</td>
-                <td>
-                    <a href="#">View</a> | 
-                    <a href="#">Edit</a> | 
-                    <a href="#">Delete</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Dino Nuggies</td>
-                <td>Yes</td>
-                <td>Jane</td>
-                <td>
-                    <a href="#">View</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Cabbage Rolls</td>
-                <td>No</td>
-                <td>Rando</td>
-                <td>
-                    <a href="#">View</a>
-                </td>
-            </tr>
+            {% for recipe in recipes %}
+                <tr>
+                    <td>{{recipe.name}}</td>
+                    <td>{% if recipe.under_30 %}
+                            <span>Yes</span>
+                        {% else %}
+                            <span>No</span>
+                        {% endif %}
+                    </td>
+                    <td>{{recipe.user.fname}}</td>
+                    {% if recipe.user_id == user.id %}
+                        <td>
+                            <a href="#">View</a> | 
+                            <a href="#">Edit</a> | 
+                            <a href="#">Delete</a>
+                        </td>
+                    {% else %}
+                        <td><a href="#">View</a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

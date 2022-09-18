@@ -41,10 +41,10 @@ class User:
     def validate_registration(user):
         is_valid = True
         if len(user['fname']) < 2:
-            flash("First Name isn't long enough")
+            flash("First Name isn't long enough - Min 2")
             is_valid = False
         if len(user['lname']) < 2:
-            flash("Last Name isn't long enough")
+            flash("Last Name isn't long enough - Min 2")
             is_valid = False
         elif not NAME_REGEX.match(user['fname']) or not NAME_REGEX.match(user['lname']):
             flash("Name must only contain letters")
@@ -53,7 +53,7 @@ class User:
             flash("Invalid email address")
             is_valid = False
         if len(user['password']) < 8:
-            flash("Password isn't long enough")
+            flash("Password isn't long enough - Min 8")
             is_valid = False
         elif not PW_REGEX.match(user['password']):
             flash("Please inlcude at least 1 number and 1 uppercase letter")

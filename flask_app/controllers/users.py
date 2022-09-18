@@ -7,7 +7,10 @@ bcrypt = Bcrypt(app)
 
 @app.route('/')
 def home():
-    return render_template('index.html',title='Recipe Share')
+    if session:
+        return redirect('/recipes')
+    else:
+        return render_template('index.html',title='Recipe Share')
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -42,12 +45,6 @@ def login():
         return redirect('/')
     session['id'] = user_in_db.id
     return redirect('/recipes')
-
-@app.route('/dashboard')
-def dashboard():
-    data = { 'id': session['id'] }
-    user_data = User.get_user_by_id(data)
-    return render_template('dashboard.html',title='Dashboard',user=user_data)
 
 @app.route('/logout')
 def logout():
