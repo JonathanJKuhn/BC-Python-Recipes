@@ -25,13 +25,8 @@ def r_new_recipe():
 @app.route('/recipes/create', methods=['POST'])
 def f_new_recipe():
     login_check()
-    data = {
-        'name': request.form.get('name'),
-        'description': request.form.get('description'),
-        'instructions': request.form.get('instructions'),
-        'date_made': request.form.get('date_made'),
-        'under_30': bool(request.form.get('under_30')),
-    }
+    data = request.form.to_dict()
+    data['under_30'] = bool(request.form.get('under_30'))
     # We want to keep the information that the user has input, so they can more easily correct inputs
     if not Recipe.validate_recipe(data):
         for key in data:
@@ -40,4 +35,32 @@ def f_new_recipe():
     
     data['user_id'] = session['id']
     Recipe.add(data)
+    return redirect('/recipes')
+
+@app.route('/recipes/edit/<int:recipe_id>')
+def r_edit_recipe(recipe_id):
+    login_check()
+    recipe = Recipe.get_one_by_id({'id':recipe_id})
+    if recipe.user_id != session['id']:
+        flash("You must be the creator of a recipe to edit it")
+        return redirect('/recipes')
+    return render_template('edit_recipe.html',title='Recipe Share',recipe=recipe)
+
+@app.route('/recipes/edit', methods=['POST'])
+def f_edit_recipe():
+    login_check()
+    data = request.form.to_dict()
+    data['under_30'] = bool(request.form.get('under_30'))
+    Recipe.update(data)
+    return redirect('/recipes')
+
+@app.route('/recipes/delete/<int:recipe_id>')
+def delete_recipe(recipe_id):
+    login_check()
+    data = {'id':recipe_id}
+    recipe = Recipe.get_one_by_id(data)
+    if recipe.user_id != session['id']:
+        flash("You must be the creator of a recipe to delete it")
+        return redirect('/recipes')
+    Recipe.delete(data)
     return redirect('/recipes')

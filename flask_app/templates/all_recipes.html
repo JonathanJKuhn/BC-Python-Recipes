@@ -4,6 +4,13 @@
     <h1>Welcome, {{user.fname}}</h1>
     <div class="nav-wrapper d-flex justify-content-between">
         <p class="lead">All posted recipes:</p>
+        {% with messages =  get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="alert alert-danger">{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <div class="link-wrapper">
             <a href="/recipes/new" class="btn btn-success">Create</a>
             <a href="/logout" class="btn btn-primary">Logout</a>
@@ -32,8 +39,8 @@
                     {% if recipe.user_id == user.id %}
                         <td>
                             <a href="#">View</a> | 
-                            <a href="#">Edit</a> | 
-                            <a href="#">Delete</a>
+                            <a href="/recipes/edit/{{recipe.id}}">Edit</a> | 
+                            <a href="/recipes/delete/{{recipe.id}}">Delete</a>
                         </td>
                     {% else %}
                         <td><a href="#">View</a></td>

@@ -2,12 +2,13 @@
 {% block content %}
 <div class="mx-5 my-5">
     <div class="nav-wrapper d-flex justify-content-between mb-5">
-        <h1>Add a New Recipe!</h1>
+        <h1>Edit Recipe!</h1>
         <div class="link-wrapper">
             <a href="/recipes" class="btn btn-primary">Back to Recipes</a>
             <a href="/logout" class="btn btn-primary">Logout</a>
         </div>
     </div>
+    <!-- alert section -->
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}
@@ -15,33 +16,34 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-    <form action="/recipes/create" method="post" class="d-flex justify-content-around align-items-start">
+    <form action="/recipes/edit" method="post" class="d-flex justify-content-around align-items-start">
         <div class="col-5">
             <div class="form-floating mb-3">
-                <input type="text" name="name" id="name" placeholder="Name Here" class="form-control">
+                <input type="text" name="name" id="name" placeholder="Name Here" value="{{recipe.name}}" class="form-control">
                 <label for="name">Name</label>
             </div>
             <div class="form-floating mb-3">
-                <textarea name="description" id="description" style="height: 200px" placeholder="Description Here" class="form-control"></textarea>
+                <textarea name="description" id="description" style="height: 200px" placeholder="Description Here" class="form-control">{{recipe.description}}</textarea>
                 <label for="description">Description</label>
             </div>
             <div class="form-floating mb-3">
-                <textarea name="instructions" id="instructions" style="height: 200px" placeholder="Instructions Here" class="form-control"></textarea>
+                <textarea name="instructions" id="instructions" style="height: 200px" placeholder="Instructions Here" class="form-control">{{recipe.instructions}}</textarea>
                 <label for="instructions">Instructions</label>
             </div>
         </div>
         <div class="col-2">
             <div class="form-floating mb-3">
-                <input type="date" name="date_made" id="date_made" placeholder="2000-01-01" class="form-control">
+                <input type="date" name="date_made" id="date_made" placeholder="2000-01-01" value="{{recipe.date_made}}" class="form-control">
                 <label for="date_made">Date Cooked/Made</label>
             </div>
             <div class="form-check form-switch mb-3">
                 <input type="checkbox" name="under_30" id="under_30" role="switch" value="True" class="form-check-input"
-                    {% if session['under_30'] %}
+                    {% if recipe.under_30 %}
                         checked
                     {% endif %}>
                 <label for="under_30" class="form-check-label">Under 30 minutes?</label>
             </div>
+            <input type="hidden" name="id" value="{{recipe.id}}">
             <input type="submit" value="Submit" class="btn btn-success">
         </div>    
     </form>

@@ -81,3 +81,15 @@ class Recipe:
             flash("Please select a Date Cooked/Made")
             is_valid = False
         return is_valid
+    
+    @staticmethod
+    def update(data):
+        query = "UPDATE recipes SET name = %(name)s, description = %(description)s, instructions = %(instructions)s, date_made = %(date_made)s, under_30 = %(under_30)s WHERE id = %(id)s;"
+        result = connectToMySQL('recipes_schema').query_db(query, data)
+        return result
+
+    @staticmethod
+    def delete(data):
+        query = "DELETE FROM recipes WHERE id = %(id)s;"
+        result = connectToMySQL('recipes_schema').query_db(query, data)
+        return result
