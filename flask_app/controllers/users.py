@@ -7,7 +7,7 @@ bcrypt = Bcrypt(app)
 
 @app.route('/')
 def home():
-    if session:
+    if 'id' in session:
         return redirect('/recipes')
     else:
         return render_template('index.html',title='Recipe Share')
