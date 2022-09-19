@@ -1,3 +1,56 @@
 {% extends 'layout.html' %}
 {% block content %}
+<div class="mx-5 my-5">
+    <div class="nav-wrapper d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h1">Welcome, {{user.fname}}</h2>
+        <div class="link-wrapper">
+            <a href="/recipes" class="btn btn-primary">Back to Recipes</a>
+            <a href="/logout" class="btn btn-primary">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="name-wrapper d-flex justify-content-between align-items-center mb-5">
+            <h2 class="h1">{{recipe.name}}</h2>
+            <h4 class="me-5">Posted by: {{recipe.user.fname}}</h4>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Description:</p>
+            </div>
+            <div class="col">
+                <p>{{recipe.description}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Under 30 Minutes?</p>
+            </div>
+            <div class="col">
+                <p>
+                    {% if recipe.under_30 %}
+                    Yes
+                    {% else %}
+                    No
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Instructions:</p>
+            </div>
+            <div class="col">
+                <p>{{recipe.instructions}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Date Made:</p>
+            </div>
+            <div class="col">
+                <p>{{recipe.date_made}}</p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

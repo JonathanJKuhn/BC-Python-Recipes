@@ -38,12 +38,12 @@
                     <td>{{recipe.user.fname}}</td>
                     {% if recipe.user_id == user.id %}
                         <td>
-                            <a href="#">View</a> | 
+                            <a href="/recipes/{{recipe.id}}">View</a> | 
                             <a href="/recipes/edit/{{recipe.id}}">Edit</a> | 
                             <a href="/recipes/delete/{{recipe.id}}">Delete</a>
                         </td>
                     {% else %}
-                        <td><a href="#">View</a></td>
+                        <td><a href="/recipes/{{recipe.id}}">View</a></td>
                     {% endif %}
                 </tr>
             {% endfor %}

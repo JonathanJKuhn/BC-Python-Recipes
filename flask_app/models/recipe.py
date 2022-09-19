@@ -53,14 +53,39 @@ class Recipe:
             recipe_obj = cls(recipe_data)
             recipe_obj.user = user_obj
             recipe_list.append(recipe_obj)
-
+        
         return recipe_list
 
     @classmethod
     def get_one_by_id(cls, data):
-        query = "Select * FROM recipes WHERE id = %(id)s;"
+        query = "Select * FROM recipes JOIN users ON user_id = users.id WHERE recipes.id = %(id)s;"
         result = connectToMySQL('recipes_schema').query_db(query,data)
-        return cls(result[0])
+        
+        user_data = {
+                'id': result[0]['users.id'],
+                'first_name': result[0]['first_name'],
+                'last_name': result[0]['last_name'],
+                'email': result[0]['email'],
+                'password': result[0]['password'],
+                'created_at': result[0]['users.created_at'],
+                'updated_at': result[0]['users.updated_at']
+            }
+        user_obj = User(user_data)
+
+        recipe_data = {
+            'id': result[0]['id'],
+            'name': result[0]['name'],
+            'description': result[0]['description'],
+            'instructions': result[0]['instructions'],
+            'date_made': result[0]['date_made'],
+            'under_30': result[0]['under_30'],
+            'created_at': result[0]['created_at'],
+            'updated_at': result[0]['updated_at'],
+            'user_id': result[0]['user_id'],
+        }
+        recipe_obj = cls(recipe_data)
+        recipe_obj.user = user_obj
+        return recipe_obj   
 
     @staticmethod
     def validate_recipe(recipe):

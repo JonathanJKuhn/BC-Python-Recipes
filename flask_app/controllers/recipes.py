@@ -37,14 +37,21 @@ def f_new_recipe():
     Recipe.add(data)
     return redirect('/recipes')
 
+@app.route('/recipes/<int:recipe_id>')
+def view_recipe(recipe_id):
+    login_check()
+    user_data = User.get_user_by_id({'id':session['id']})
+    recipe_data = Recipe.get_one_by_id({'id':recipe_id})
+    return render_template('view_recipe.html',title='Recipe Share',recipe=recipe_data,user=user_data)
+
 @app.route('/recipes/edit/<int:recipe_id>')
 def r_edit_recipe(recipe_id):
     login_check()
-    recipe = Recipe.get_one_by_id({'id':recipe_id})
-    if recipe.user_id != session['id']:
+    recipe_data = Recipe.get_one_by_id({'id':recipe_id})
+    if recipe_data.user_id != session['id']:
         flash("You must be the creator of a recipe to edit it")
         return redirect('/recipes')
-    return render_template('edit_recipe.html',title='Recipe Share',recipe=recipe)
+    return render_template('edit_recipe.html',title='Recipe Share',recipe=recipe_data)
 
 @app.route('/recipes/edit', methods=['POST'])
 def f_edit_recipe():
@@ -58,8 +65,8 @@ def f_edit_recipe():
 def delete_recipe(recipe_id):
     login_check()
     data = {'id':recipe_id}
-    recipe = Recipe.get_one_by_id(data)
-    if recipe.user_id != session['id']:
+    recipe_data = Recipe.get_one_by_id(data)
+    if recipe_data.user_id != session['id']:
         flash("You must be the creator of a recipe to delete it")
         return redirect('/recipes')
     Recipe.delete(data)
